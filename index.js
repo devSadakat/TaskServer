@@ -11,11 +11,6 @@ app.use(cors());
 app.use(express.json());
 
 
-// Get operation
-app.get('/', async (req, res) => {
-    res.send('Server is error running.')
-});
-
 // connect with MongoDB
 
 // const uri = "mongodb+srv://sadakathossain11:<db_password>@cluster1.csyfged.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1";
@@ -34,8 +29,22 @@ async function run() {
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
         // Send a ping to confirm a successful connection
-        await client.db("admin").command({ ping: 1 });
+        await client.db("TaskManagement").command({ ping: 1 });
+        const dataCollection = client.db("TaskManagement").collection('AllTask')
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
+
+        // Get operation
+        app.get('/', async (req, res) => {
+            res.send('Server is error running.')
+        });
+
+        // Load data from MongoDB
+        app.get('/allTask', async (req, res) => {
+            const result = await dataCollection.find().toArray();
+            res.send(result)
+        })
+
+
     } finally {
         // Ensures that the client will close when you finish/error
         // await client.close();
