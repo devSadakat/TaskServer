@@ -33,9 +33,9 @@ async function run() {
 
         //--------------------------- Start Database Code -------------------------------//
 
-        const database = client.db('TaskManagement').collection('AllTask')
+        const database = client.db('task_management').collection('all_task')
 
-        app.get("/allTask", async (req, res) => {
+        app.get("/alltask", async (req, res) => {
             const result = await database.find().toArray();
             res.send(result);
         });
